@@ -1,0 +1,31 @@
+# Basic Principles #
+Kerneless, Lawless, Userless, Speechless, Limitless, Tousless, Spyless and Bugless operating system.
+
+**Kerneless:** it mean to drop a kernel. No more reasons to create a one way in system, all the more so distributed system; even micro-, nano- or pico-kernel. It's out of the date.
+
+**Lawless:** it mean to drop permissions to access. Allways use encrypting. All data in system are enciphered by default. No exception. If you have the key - you can use it, _no key - no access_.
+
+**Userless:** it mean to drop a users database. It makes no difference to have some login or any password if do not check the permissions.
+
+**Speechless:** it is a fresh lexical less programming tools. It based on the principles of Finite State Machine and does not contain the usual control statements. No more bugs into novels, no bees in the head. All we need is a pure mathematic.
+
+**Tousless:** _(tousle less)_ it mean to drop a special-directory file. All meta-data (like a file name or date of create ) is included into same file. All files are exist in the one big heap. Use mask to filter out names that you want to see. Instead "cd", i.e. "change directory", applies "nm", i.e. "name mask". Simple just only "nm" for home, these buttons are located near.
+
+**Spyless:** it mean to drop a superuser. Only the file owner can give away the keys to access (decrypt for read, sign for changes). For collective actions are uses a secure keys exchange protocol.
+
+Also using old school genius ideas by UNIX, Plan9 and Inferno, such as:
+
+  1. Resources as files. All resources as files. There are no other resource, or other interface, or other object except files. No exception
+  1. Namespace, common namespace for both local and remote
+  1. Standard communication protocol [Cry](Cry.md), the
+  1. [Deus](Deus.md) virtual machine for portability
+
+**Bugless** and **Limitless** is ambitious concepts that not yet proved. IMHO that the properties of the [Kode](Kode.md) programming tool will allow to get rid of a large number of errors that lead to crashes and hacking of all existing OS.
+
+Read [Principles](Principles.md) for more information
+
+Hi there all, followers!
+
+Thanks for your interest and shy clapping. If the first chords received such attention I will find time to play all parts.
+
+Read [AboutUs](AboutUs.md)

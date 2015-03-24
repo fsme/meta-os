@@ -1,0 +1,272 @@
+# Language of Bot #
+
+## Introduction ##
+
+[Kode](Kode.md) is object-oriented and human usability programming language of [Deus](Deus.md). Its computer-oriented the form are called as [ByteKode](ByteKode.md). The [MnemoKode](MnemoKode.md) is compromise.
+
+[Kode](Kode.md) is at the same time language of the basic command interpreter of Meta OS.
+
+Most syntax and semantics is borrowed from **`C++`** and UNIX **`sh`** . Principal emphasis is laid on briefness and compactness of a code, use an intuitive syntax.
+
+1st big difference of [Kode](Kode.md) from other programming tools is absence usual of control statements the execution sequence. There are no _loop, function, subroutines, call-return, goto_, all of them.
+
+2nd big difference of [Kode](Kode.md) is absence concept of address, pointer or reference of memory. It has symbolic access memory by filename only.
+
+Basic rules:
+  * Strong static typing
+  * Object-oriented design
+  * Symbolic access memory: _operand are file or constant only_
+  * Control statements through states
+
+Semicolon **;** using for operators divided, comments start by double slash **//** or hash sign **#**
+
+## Simple example ##
+
+### Hello, World ###
+```
+//std/exmpl/helloword/hello
+
+nm /std
+out << "hello, awesome world!" << endl
+```
+
+```
+//std/exmpl/helloword/bye
+
+/std/out << "good bye, cruel world!" << /std/endl;
+```
+
+
+## Memory Management ##
+
+The [Kode](Kode.md) always use simbolic name to access to anything. Does not directly access memory or memory variables. Any variables are files.
+
+[Kode](Kode.md) has no difference between a file and a directory. File content as well as the file, is created by the _`typename`_ statement  and is destroyed by the _`remove`_ statement. The type of any contents of the file is declared in time of creation. Contents of the file joins to a files tree, continuing the namespace.
+```
+> int data
+> data/byte first
+> data/byte second
+> ls data/byte
+first
+second
+>_
+```
+The summary of contents size must be is less or is equal to file size proceeding from its type. The `'int'` type may have only one or two of the `'byte'` included.
+
+A content definition does not exclude the appeal to the file on his type.
+```
+> erase data
+> data += 257
+>_
+```
+Deleting a content does not destroy part of the parent file, but removes opportunity to access to this part by name.
+```
+> rm data/byte/first
+> ls data/byte
+second
+>_
+> hex << data
+0x1 0x1
+>_
+```
+
+## Data Types ##
+
+[Kode](Kode.md) uses strong static typing. Type checking is performed during compile-time. All the types must be defined  before they are
+used.
+
+Embedded basic types provides a close match to the architecture of existing processors. They have no FSM-gear and they are simple files, the bytes sequence. Expanded type contains FSM-gear and/or other data, it is a directory.
+
+## Basic Types ##
+
+The basic types of data are:
+```
+	byte
+	int
+	word
+	great
+	real
+	double
+	chars
+	set
+```
+A **byte** is 8-bits, integer, unsigned. A **int** is 16-bits, integer, signed. A **word** is 32-bits, integer, signed. A **great** is 64-bits, integer, signed. A **real** is 32-bits IEEE format floating-point number. A **double** is 64-bits floating-point. A **chars** is a string encoded in UTF-8.
+
+The **set** is a set of byte. Any expanded type are **set**.
+
+Embedded basic types do not require the specification, however are defined into **/std** area to reserve the names.
+```
+/std/byte
+/std/int
+/std/word
+/std/great
+/std/real
+/std/double
+/std/chars
+/std/set
+```
+The **typename** is always used as prefix of filename for type specification. Actually, the **typename** is a directory which contains all files of this type.
+
+The size of set and chars are specified automatically by content.
+
+
+```
+	typename/filename { = content {*const*}}
+```
+Example:
+```
+> set {
+  byte/prefix
+  real/pi = 3.14 const
+  great/interval
+  chars/name = "Pi and Interval"
+} data
+>
+> ls data
+byte
+real
+great
+chars
+>
+> du -q data/*
+byte/prefix
+real/pi
+great/interval
+chars/name
+>
+> du data/*
+1       byte/prefix
+4       real/pi
+8       great/interval
+16      chars/name
+29      total
+>_
+```
+
+The **const** modifier to make the file readonly. It can be use after content only, because content has no changes.
+
+## Expanded Numeric Types ##
+
+For all numeric types of Kode it is accepted to designate their names 'u'-prefix for unsigned and a postfix N designating number of bits in the type.
+```
+	{u}typenameN
+```
+For example, a unsigned integer 16-bits type named as **uint16**, a float-pointing signed 128-bits type named as **float128**. The byte is synonym of **uint8**.
+
+## Expanded Types ##
+All types which more complex than basic is defined on file system basis on the basic types. Also it may be occurs for all basic types are native unsupported by target architecture.
+
+Expanded types can contain or can not contain the FSM-gear for action. Types which contain the gear called as **Bot**, which is not contain called as **Data**.
+
+For convenience of development the standard library named as **/std** is supported.
+
+## Constant size ##
+Constant size is encoded explicitly by the operand code. The operand size and type are specified by the last character of the operand mnemonic.
+```
+	b - byte, unsigned 8-bits integer
+	i - int, signed 16-bits integer
+	w - word, signed 32-bits integer
+	g - great, signed 64-bits integer
+	r - real, 32-bits floating-point
+	d - double, 64-bits floating-point
+	c - unicode string into UTF-8
+	s - set of bytes
+```
+A **hex** start with `0x`, a **octal** start with zero, a **decimal** start with number, a **binary** start with `1x`, **chars** consists in "double quotes" and **set** may be defined through list a comma
+```
+        255b
+        0xfc21i
+        1x0010110
+        65536w
+        -062273455532g
+        "string into utf8"
+        'set of byte'
+```
+If the specification is missed, like for binary, a type is appropriated automatically.
+
+## FSM gear ##
+FSM-gear is turning the passive **Data** into the active executing **Bot**. States and Actions of the FSM is representation as files together with remaining data. Action are similar to member function of the C++ classes.
+
+Action is the file containing the execution command sequence.
+State is current statement, it is containing the Action.
+
+Execution sequence have only two ways: to continue execution by the following operator or to interrupt execution of current Action.
+
+## Object-oriented Design ##
+### Encapsulation ###
+Encapsulation is the one single method of existence of data. All content of the file is protected by encoding and has not non-authorized access. Action-files containing executable code, are located on a tree of files inside the object.
+
+Never the FSM-gear of object execute other object's Action-files, it is absolutely unavailable by architecture.
+
+### Inheritance ###
+Inheritance is declared by the **inherit** special directory.
+```
+set {
+  byte/prefix;
+  real/pi = 3.14 const;
+  great/interval;
+  chars/name = "Pi and Interval";
+} data;
+>
+set {
+  inherit/data;
+  byte/someone;
+} dataEx;
+>
+> ls dataEx/*
+inherit/data
+byte/someone
+>
+> du dataEx/*
+1       byte/prefix
+1       byte/someone
+4       real/pi
+8       great/interval
+16      chars/name
+30      total
+> _
+```
+
+### Polymorphism ###
+Operators and methods overloading; method overriding.
+
+
+## Standart Input/Output ##
+The Meta OS have a standart way for input and output implementation. Standart I/O types on the **/std** namespace.
+```
+        /std/in      type of input stream
+        /std/out     type of output stream
+        /std/err     type of log stream
+
+        /.../bot/in/put    input stream of the bot
+        /.../bot/out/put   output stream of the bot
+```
+Each process got the private copy of namespace and the private I/O files for use.
+
+Any Bot has opportunity to read and write any files in the presence at it encrypting keys, creation of any necessary streams and queues. But use of standard I/O files is the best way for integration into Meta system.
+
+## Statements ##
+### Memory Statements ###
+#### Allocate Memory ####
+```
+typename/filename {= contant {const}}
+```
+#### Free Memory ####
+```
+remove | re | rm filename
+```
+#### Clear Memory ####
+```
+erase | er filename
+```
+#### Size of Memory ####
+```
+sizeof | sz filename
+```
+
+### Assignment Statements ###
+#### Control Statement ####
+Any comparison operator ( <, >, <=, ==, eq, etc.)
+break;
+
+# EOF #
