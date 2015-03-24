@@ -1,0 +1,8 @@
+#summary Executable code of Deus.
+
+== Intro ==
+
+Here we go.
+
+
+== Details ==
